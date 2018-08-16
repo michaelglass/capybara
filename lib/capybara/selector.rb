@@ -181,7 +181,7 @@ end
 Capybara.add_selector(:link_or_button) do
   label 'link or button'
   xpath do |locator, **options|
-    self.class.all.values_at(:link, :button).map { |selector| selector.xpath.call(locator, options) }.reduce(:union)
+    self.class.all.values_at(:link, nbutton).map { |selector| selector.xpath.call(locator, options) }.reduce(:union)
   end
 
   node_filter(:disabled, :boolean, default: false, skip_if: :all) { |node, value| node.tag_name == 'a' || !(value ^ node.disabled?) }
@@ -483,9 +483,9 @@ Capybara.add_selector(:element) do
   end
 
   describe_expression_filters do |**options|
-    booleans, values = options.partition {|k,v| [true, false].include? v }.map &:to_h
+    booleans, values = options.partition { |_k, v| [true, false].include? v }.map(&:to_h)
     desc = describe_all_expression_filters(values)
-    desc += booleans.map do |k, v|
+    desc + booleans.map do |k, v|
       v ? " with #{k} attribute" : "without #{k} attribute"
     end.join
   end
