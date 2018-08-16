@@ -332,7 +332,7 @@ module Capybara
     #   RSpec matcher for table elements
     #   See {Capybara::Node::Matchers#has_table?}
 
-    %i[checked unchcked].each do |state|
+    %i[checked unchecked].each do |state|
       define_method "have_#{state}_field" do |locator = nil, **options, &optional_filter_block|
         HaveSelector.new(:field, locator, options.merge(state => true), &optional_filter_block)
       end
